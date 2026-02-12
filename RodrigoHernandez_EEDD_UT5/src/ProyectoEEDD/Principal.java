@@ -22,10 +22,10 @@ public class Principal {
 			int opcion = leerInt(leer);
 			
 			switch (opcion) {
-			//case 1:registrarJugador(jugadores);break;
-			//case 2:mostrarJugadores(jugadores);break;
+			case 1:registrarJugador(jugadores);break;
+			case 2:mostrarJugadores(jugadores);break;
 			//case 3:matar(jugadores);break;
-			//case 4:salir = true;System.out.println("Saliendo del sistema :c ");break;
+			case 4:salir = true;System.out.println("Saliendo del sistema :c ");break;
 			default:System.out.println("Opci�n no v�lida.");
 			}	
 		}while (!salir);
@@ -39,9 +39,47 @@ public class Principal {
 				num = Integer.parseInt(leer.readLine());
 				valido = true;
 			} catch (NumberFormatException e) {
-				System.out.print("ERROR. Introduce un n�mero v�lido: ");
+				System.err.print("ERROR.");
+				System.out.print(" Introduce un n�mero v�lido: ");
 			}
 		}
 		return num;
+	}
+	
+	//case1
+	private static void registrarJugador(ArrayList<Jugador> jugadores) throws IOException {
+		if (jugadores.size() >= 10) {
+	        System.out.println("No se pueden registrar más de 10 jugadores.");
+	        return;
+	    }
+		
+		int asesinosActuales = 0;
+        for (Jugador j : jugadores) {
+            if (j.esAsesino()) 
+            	asesinosActuales++;
+        }
+        
+		Jugador nuevo = new Jugador();
+		nuevo.pedirDatos(leer, jugadores, asesinosActuales);
+		jugadores.add(nuevo);
+		System.out.println("Jugador registrado correctamente.");
+		if (nuevo.esAsesino()) {
+			System.out.println("Este jugador es asesino");
+		}else {
+			System.out.println("Este jugador es tripulante");
+		}
+    }
+	
+	//case2
+	private static void mostrarJugadores(ArrayList<Jugador> jugadores) {
+		if (jugadores.isEmpty()) {
+			System.out.println("No hay jugadores registrados.");
+			return;
+		}
+
+		System.out.println("== Lista de jugadores ==");
+		for (Jugador j : jugadores) {
+			j.mostrarDatos();
+		}
 	}
 }
