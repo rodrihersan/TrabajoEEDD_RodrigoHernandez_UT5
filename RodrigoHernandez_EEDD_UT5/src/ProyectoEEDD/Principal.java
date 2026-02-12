@@ -4,7 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Random;
 
+//Principio: Evitar God Class
+//La clase principal gestiona el menú. La lógica específica
+//de cada jugador está delegada en la clase Jugador,
+//evitando concentrar toda la funcionalidad en una sola clase.
+
+/*Principio: Responsabilidad Única (SRP)
+La clase Principal se encarga únicamente del control del menú
+y de coordinar las acciones del juego.*/
 public class Principal {
 	static BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
 	
@@ -24,7 +33,7 @@ public class Principal {
 			switch (opcion) {
 			case 1:registrarJugador(jugadores);break;
 			case 2:mostrarJugadores(jugadores);break;
-			//case 3:matar(jugadores);break;
+			case 3:matar(jugadores);break;
 			case 4:salir = true;System.out.println("Saliendo del sistema :c ");break;
 			default:System.out.println("Opci�n no v�lida.");
 			}	
@@ -81,5 +90,40 @@ public class Principal {
 		for (Jugador j : jugadores) {
 			j.mostrarDatos();
 		}
+	}
+	
+	//case3
+	/*Principio: Bajo acoplamiento
+	La clase Principal utiliza métodos públicos de la clase Jugador
+	sin acceder directamente a sus atributos internos.*/
+	private static void matar(ArrayList<Jugador> jugadores) {
+		ArrayList<Jugador> asesinos = new ArrayList<>();
+	    ArrayList<Jugador> tripulantes = new ArrayList<>();
+
+	    for (Jugador tipo : jugadores) {
+	        if (tipo.esVivo()) {
+	            if (tipo.esAsesino()) {
+	                asesinos.add(tipo);
+	            } else {
+	            	tripulantes.add(tipo);
+	            }
+	        }
+	    }
+
+	    if (asesinos.isEmpty() || tripulantes.isEmpty()) {
+	        System.out.println("No se puede realizar un asesinato en este momento.");
+	        return;
+	    }
+	    
+	    Random rand = new Random();
+	    
+	    if (!rand.nextBoolean()) {
+	        System.out.println("Esta ronda no hubo asesinato.");
+	        return;
+	    }
+	    
+	    Jugador victima = tripulantes.get(rand.nextInt(tripulantes.size()));
+	    victima.morir();
+	    System.out.println("Un tripulante ha sido asesinado...");
 	}
 }

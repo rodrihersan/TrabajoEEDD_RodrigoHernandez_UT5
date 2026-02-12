@@ -5,7 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+//Principio: Nombres significativos
+//Los nombres como Jugador, asesino, tripulante, vivo,
+//describen claramentesu propósito dentro del programa.
 public class Jugador {
+	
+	/*Principio: Encapsulación
+	Los atributos son privados para proteger el estado interno
+	del objeto y solo se accede a ellos mediante métodos públicos.*/
 	private String nombre;
 	private String color;
 	private int id;
@@ -13,6 +20,9 @@ public class Jugador {
 	private boolean asesino;
 	private boolean vivo;
 	
+	/*Principio: Se evita la duplicación de código
+	El método leerLinea centraliza la validación de texto,
+	evitando repetir la misma comprobación en varias partes del código.*/
 	private String leerLinea(BufferedReader leer) throws IOException {
 		String texto;
 		do {
@@ -40,6 +50,9 @@ public class Jugador {
         return vivo;
     }
 
+	//Principio: Métodos pequeños y claros
+	//Se aprecia un método pequeño, claro y con un nombre entendible y con una accion sencilla y especifica,
+	//en este caso el estado de vivo (true) pasa a false (Muerto).
     public void morir() {
         vivo = false;
     }
@@ -55,6 +68,8 @@ public class Jugador {
 		return false;
 	}
 	
+	// Principio: Bajo acoplamiento
+    // El objeto se crea fuera y no depende directamente del menú.
 	public void pedirDatos(BufferedReader leer, ArrayList<Jugador> jugadores, int asesinosActuales) throws IOException {
 		System.out.print("Nombre: ");
 		nombre = leerLinea(leer);
