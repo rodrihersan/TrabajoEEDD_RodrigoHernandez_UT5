@@ -100,12 +100,12 @@ public class Principal {
 		ArrayList<Jugador> asesinos = new ArrayList<>();
 	    ArrayList<Jugador> tripulantes = new ArrayList<>();
 
-	    for (Jugador tipo : jugadores) {
-	        if (tipo.esVivo()) {
-	            if (tipo.esAsesino()) {
-	                asesinos.add(tipo);
+	    for (Jugador jugadorActual : jugadores) {
+	        if (jugadorActual.esVivo()) {
+	            if (jugadorActual.esAsesino()) {
+	                asesinos.add(jugadorActual);
 	            } else {
-	            	tripulantes.add(tipo);
+	            	tripulantes.add(jugadorActual);
 	            }
 	        }
 	    }
@@ -115,14 +115,14 @@ public class Principal {
 	        return;
 	    }
 	    
-	    Random rand = new Random();
+	    Random aleatorio = new Random();
 	    
-	    if (!rand.nextBoolean()) {
+	    if (!aleatorio.nextBoolean()) {
 	        System.out.println("Esta ronda no hubo asesinato.");
 	        return;
 	    }
 	    
-	    Jugador victima = tripulantes.get(rand.nextInt(tripulantes.size()));
+	    Jugador victima = tripulantes.get(aleatorio.nextInt(tripulantes.size()));
 	    victima.morir();
 	    System.out.println("Un tripulante ha sido asesinado...");
 	}
